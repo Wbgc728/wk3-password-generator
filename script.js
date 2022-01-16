@@ -1,4 +1,4 @@
-// Assignment Code
+// Given --> Assignment Code
 var generateBtn = document.querySelector("#generate");
 
 // GIVEN I need a new, secure password
@@ -19,30 +19,70 @@ var generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
 
+// Define Password Character Strings
+var lowercaseChar = "abcdefghijklmnopqrstuvwxyz";
+var uppercaseChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var numberChar = "0123456789";
+var specialChar = "!@#$%^&*+=-_~";
+
+
+// Empy Password strings
+var tempPasswordChar="";
+var genPassword = ""
+
+
 function generatePassword() {
   // THEN I choose a length of at least 8 characters and no more than 128 characters
-  var numChar = window.prompt("Choose a number of characters for your password (8 Min, 128 Max)"); 
-  if (numChar<8 ||numChar>128){
+  var passwordLength = window.prompt("Choose a number of characters for your password (8 Min, 128 Max)"); 
+  if (passwordLength<8 ||passwordLength>128){
     alert("Invalid number of characters");
     return generatePassword();
   }
   // THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
-  var charUpp = window.confirm("Should your password contain uppercase characters?");
-  var charNum = window.confirm("Should your password contain numeric characters?");
-  var charSpec = window.confirm("Should your password contain sprecial characters?");
+  var charLow = window.confirm("Does your password need to contain lowercase character?");
+  var charUpp = window.confirm("Does your password need to contain uppercase characters?");
+  var charNum = window.confirm("Does your password need to contain numeric characters?");
+  var charSpec = window.confirm("Does your password need to contain special characters?");
+
   // THEN my input should be validated and at least one character type should be selected
-  if(charUpp===charNum===charSpec===false)
+  if(!charLow && !charUpp && !charNum && !charSpec )
   {
     alert("Atleast one character type should be selected")
     return generatePassword();
-  }
-  for (i=0, n=numChar; i<length){
-    Math.floor(Math.random() * 10);
+
+  } 
+  // Check password characters type selected and add to selection if applicaple
+   if(charLow === true)
+    {
+     tempPasswordChar += lowercaseChar;
+    }
+
+    if(charUpp === true)
+    {
+     tempPasswordChar += uppercaseChar;
+    }
+    if(charNum === true)
+    {
+     tempPasswordChar += numberChar;
+    }
+    if(charSpec === true)
+    {
+     tempPasswordChar += specialChar;
+    }
+
+
+// Iterate through available selction of characters randomly to generate appropriate length passsword
+  for (let i=0; i<passwordLength; i++){
+
+    genPassword += tempPasswordChar[Math.floor(Math.random() * tempPasswordChar.length )];
 
   }
+  return genPassword;
 
 }
 
+
+// Given --> Write password to the #password input
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
@@ -51,5 +91,5 @@ function writePassword() {
 
 }
 
-// Add event listener to generate button
+// Given --> Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
